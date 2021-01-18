@@ -124,10 +124,10 @@ if __name__ == '__main__':
 		print(f"Erro. Comparacoes permitidas: 'BUY' ou 'SELL'. Comparacao '{argOrderType}' nao reconhecida")
 		exit(1)
 
-	argOrderType = argv[1]
-	argCoin      = argv[2]
+	argOrderType = argv[1].upper()
+	argCoin      = argv[2].upper()
 	argValue     = argv[3]
-	argCompare   = argv[4]
+	argCompare   = argv[4].upper()
 	argReference = argv[5]
 
 	try:
