@@ -26,22 +26,22 @@ def runOrder(conn, argOrderType : str, argCoin : str, argValue : str) -> bool:
 
 	if argOrderType == 'BUY':
 		param = {
-			'tapi_method': 'place_market_buy_order',
-			'tapi_nonce': str(int(time.time())),
-			'coin_pair': argCoin,
-			'cost': argValue,
+			'tapi_method' : 'place_market_buy_order',
+			'tapi_nonce'  : str(int(time.time())),
+			'coin_pair'   : argCoin,
+			'cost'        : argValue,
 		}
 
 	elif argOrderType == 'SELL':
 		param = {
-			'tapi_method': 'place_market_sell_order',
-			'tapi_nonce': str(int(time.time())),
-			'coin_pair': argCoin,
-			'quantity': argValue,
+			'tapi_method' : 'place_market_sell_order',
+			'tapi_nonce'  : str(int(time.time())),
+			'coin_pair'   : argCoin,
+			'quantity'    : argValue,
 		}
 
 	else:
-		return False
+		return(False)
 
 	param = urlencode(param)
 	params_string = REQUEST_PATH + '?' + param
@@ -58,8 +58,7 @@ def runOrder(conn, argOrderType : str, argCoin : str, argValue : str) -> bool:
 	try:
 		conn.request("POST", REQUEST_PATH, param, headersOrder)
 
-		response = conn.getresponse()
-		response = response.read()
+		response = conn.getresponse().read()
 
 		response_json = json.loads(response)
 		print("Ordem executada! Resultado:")
@@ -95,11 +94,11 @@ def runOrder(conn, argOrderType : str, argCoin : str, argValue : str) -> bool:
 
 		print(f"Server Timestamp: [{response_json['server_unix_timestamp']}]")
 
-		return True
+		return(True)
 
 	except Exception as e:
 		print(f"Erro colocando ordem {param}: {e}")
-		return False
+		return(False)
 
 
 def getPrice(conn, coin : str) -> [bool, float]:
@@ -108,14 +107,13 @@ def getPrice(conn, coin : str) -> [bool, float]:
 	try:
 		conn.request("GET", REQUEST_PATH, '', {})
 
-		response = conn.getresponse()
-		response = response.read()
+		response = conn.getresponse().read()
 		response_json = json.loads(response)
 
 		return (True, float(response_json.get('ticker').get('last')))
 
 	except Exception as e:
-		return (False, f"{e}")
+		return(False, f"{e}")
 
 
 if __name__ == '__main__':
